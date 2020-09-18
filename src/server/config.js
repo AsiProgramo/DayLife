@@ -9,7 +9,7 @@ const errhdr = require('errorhandler');
 module.exports = app => {
     //setting
     app.set('port', process.env.PORT || 3000);
-    app.set('views', path.join(__dirname, 'view'));
+    app.set('views', path.join(__dirname, '../view'));
     app.engine('.hbs', exhbs({
         defaultLayout: 'main',
         partialsDir: path.join(app.get('views'), 'partials'),
