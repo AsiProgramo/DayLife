@@ -10,5 +10,5 @@ const app = config(express());
 
 // llama a el serve el un puerto
 app.listen(app.get('port'), () => {
-    console.log('server on port:' + app.get('port'));
+    console.log('server on port:http://localhost:' + app.get('port'));
 });

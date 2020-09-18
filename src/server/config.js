@@ -5,7 +5,7 @@ const route = require('../route/index.js');
 
 const morgan = require('morgan');
 const multer = require('multer');
-
+const errhdr = require('errorhandler');
 module.exports = app => {
     //setting
     app.set('port', process.env.PORT || 3000);
@@ -28,5 +28,12 @@ module.exports = app => {
     //routes
     route(app);
 
+    //static Files
+    app.use('/public', express.static(path.join(__dirname, '../public')));
+
+    //errohandles
+    if ('development' === app.get('dev')) {
+        app.use(errhdr)
+    }
     return app;
 }
