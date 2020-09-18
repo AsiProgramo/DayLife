@@ -1,9 +1,12 @@
+/*afecta a todo*/
+
 * {
-    margin: 0;
-    padding: 0;
-    transition-duration: 340ms;
-    background-color: white;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    transition-duration: 340.ms;
 }
+
+
+/*gradiante para el primae nav*/
 
 .bg-gradient {
     background: rgba(13, 176, 165, 1);
@@ -14,4 +17,30 @@
     background: -ms-linear-gradient(45deg, rgba(13, 176, 165, 1) 0%, rgba(249, 205, 44, 1) 100%);
     background: linear-gradient(45deg, rgba(13, 176, 165, 1) 0%, rgba(249, 205, 44, 1) 100%);
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#0db0a5', endColorstr='#f9cd2c', GradientType=1);
+}
+
+
+/*class de background*/
+
+.oscuro {
+    background-color: #0C2229;
+}
+
+.green {
+    background-color: #00D448;
+}
+
+.oscuro2 {
+    background-color: #143945;
+}
+
+
+/*class de texto*/
+
+.toscuro {
+    color: #0C2229;
+}
+
+.claro {
+    background-color: #2E6779;
 }
