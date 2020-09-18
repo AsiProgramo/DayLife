@@ -44,3 +44,14 @@
 .claro {
     background-color: #2E6779;
 }
+
+
+/*info perfil css*/
+
+.info-perfil {
+    position: absolute;
+    width: 309px;
+    height: 40px;
+    right: 1%;
+    top: 12%;
+}
