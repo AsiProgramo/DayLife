@@ -12,6 +12,10 @@
     
 </head>
 <style>
+    *{
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        transition-duration: 340.ms;
+    }
     .bg-gradient{
           background: rgba(13, 176, 165, 1);
     background: -moz-linear-gradient(45deg, rgba(13, 176, 165, 1) 0%, rgba(249, 205, 44, 1) 100%);
@@ -22,16 +26,47 @@
     background: linear-gradient(45deg, rgba(13, 176, 165, 1) 0%, rgba(249, 205, 44, 1) 100%);
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#0db0a5', endColorstr='#f9cd2c', GradientType=1);
     }
+
+    .oscuro{
+        background-color: #0C2229;
+    }
+    .toscuro{
+        color: #0C2229;
+    }
+    .green{
+        background-color: #00D448; 
+    }
+    .oscuro2{
+        background-color: #143945;
+    }
 </style>
-<body class="bg-dark">
+<body class="oscuro">
     <nav class="navbar navbar-dark bg-gradient">
-        <a class="navbar-brand text-dark" href="/"><img src="../../public/img/icon0.png" alt="img" width="50">DayLife</a>
+        <a class="navbar-brand " href="/"><img src="../../public/img/icon0.png" class="toscuro" alt="img" width="50"><b>DayLife</b></a>
         
             <form class="form-inline" >
                 <img src="../../public/img/ADD.png"  class="mr-sm-2" alt="img" width="50">
                 <img src="../../public/img/edit.png" class="mr-sm-0" alt="img" width="50">
             </form>
-      
+        
+    </nav>
+
+    <nav class="nav oscuro2 pl-2 mt-1">
+      <div class="col-1 row green" >
+          <div class="m-2 toscuro">
+             <h5><b>HORA</b> </h5>
+          <h5>6:00AM</h5> 
+          </div>
+        
+          </div>
+           <div class="col-2 row green" style="border-left: solid #0C2229  3px;" >
+         
+          <div class="m-2">
+             <h5> <b>ACCION</b> </h5>
+          <h5>Despertar</h5> 
+          </div>
+          </div>
+          
     </nav>
     {{{body}}}
 </body>
