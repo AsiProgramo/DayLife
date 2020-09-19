@@ -8,6 +8,7 @@ module.exports = app => {
     router.get('/login', home.login);
     router.get('/image/:id', control.index);
     router.post('/image', control.create);
+    router.post('/registro', control.chatlive)
     router.post('/image/:id/like', control.like);
     router.post('/image/:id/coment', control.coment)
     router.delete('/image/:id', control.delete)
