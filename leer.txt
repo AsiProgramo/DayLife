@@ -1,1 +1,1 @@
-Para poder usar este repositorio enecesitas:$ npm i express express-handlebars morgan multer fs extra errorhandler md5.
+Para poder usar este repositorio enecesitas:$ npm i express express-handlebars morgan multer fs extra errorhandler md5 nodemon.

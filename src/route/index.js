@@ -5,6 +5,7 @@ const control = require('../controller/control');
 module.exports = app => {
 
     router.get('/', home.index);
+    router.get('/login', home.login);
     router.get('/image/:id', control.index);
     router.post('/image', control.create);
     router.post('/image/:id/like', control.like);
