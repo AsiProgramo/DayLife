@@ -1,4 +1,4 @@
-<body class="oscuro">
+<body class="oscuro" onload="setup()">
     <!--nav principal -->
     <nav class="navbar navbar-dark bg-gradient">
         <!--icon y nombre -->
@@ -13,7 +13,7 @@
     </nav>
 
 
-<!--segundo nav-->
+    <!--segundo nav-->
     <nav class="nav oscuro2 pl-2 mt-1">
         <!--primer columna info hora-->
         <div class="col-1 row green">
@@ -32,12 +32,86 @@
             </div>
         </div>
         <!--tercer columna perfil y info hora real y user-->
-         <div class="col-3 oscuro form-inline info-perfil" style="border-radius: 28.5px; height: 57px;">
-            <div class="row  text-white ">
-                <img src="../../public/img/norway-4970081_1920.jpg" alt="icon" width="50" height="50" style="border-radius: 28px;">
-                <h5 class="m-2"><b>Maria</b></h5>
-                <h5 class="m-2"> 6:00AM</h5>
+        <div class="col-3 oscuro form-inline info-perfil" style="border-radius: 28.5px; height: 57px;">
+            <div class="row  text-white">
+                <img src="../../public/img/norway-4970081_1920.jpg" alt="icon" width="50" height="50"
+                    style="border-radius: 28px;">
+                <h5 class="m-2 mt-3"><b>Maria</b></h5>
+                <h5 class="m-2 ml-5 mt-3" id="horaReal"></h5>
             </div>
 
         </div>
     </nav>
+
+    <!-- ajuste-->
+    <div class="oscuro text-white text-center" id="ajuste" style="height: 100vh;position: absolute; width: 100%;top: 0;padding-top: 12%;">
+        <form class="from" >
+            <h1 style="font-size: 5em; ">DayLife</h1>
+                <label for="despertar">Que hora te gustaria despertar?</label>  
+            <div class="form-group row mb-5" style="margin: 0; padding-left: 40%">
+                            
+                <input type="time" name="hora" id="hora" class="form-control col-3 mr-1">
+                <select name="time"  id="time" class="form-control col-1   ">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+
+            </div>
+            <p>Si indicas tu hora de iniciar el dia <br> se generara un horario perfecto para la productividad de tu dia.</p>
+            <div class="from-group">
+                <input type="button" onclick="guardar()" class="btn btn-success col-2" value="Guardar">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const ajuste = document.querySelector('#ajuste');
+
+        function setup() {
+            var hora = localStorage.getItem('hora');
+            var time = localStorage.getItem('time');
+
+            if(hora !== '' && time !== ''){
+                ajuste.style = 'display: none;'
+            }
+            //reloj
+            setInterval(() => {
+                var horaReal = document.querySelector('#horaReal');
+                var day = new Date();
+                var hr = day.getHours();
+                var mn = day.getMinutes();
+
+                horaReal.innerHTML = pmoam(hr).hr + ':' + agrega0(mn) + pmoam(hr).pmoam;
+            }, 1000)
+        }
+        // agrega un 0 si el numero es menor a 10  (1:2PM)vs (1:02PM)
+        function agrega0(num) {
+            if (num < 10) {
+                num = '0' + num
+            }
+
+            return num;
+        }
+        //detecta si es am o pm y hace que sea de reloj de 12 horas
+        function pmoam(hr) {
+            var info = { 'hr': hr, 'pmoam': 'AM' };
+            if (hr < 12) {
+                info.hr = hr;
+                info.pmoam = 'AM';
+            } else if (hr >= 12) {
+                info.hr = (hr - 12);
+                info.pmoam = 'PM'
+            }
+            return info;
+        }
+        //guarda los dato en el navegador
+        function guardar(){
+            var hora = document.querySelector('#hora');
+            var time = document.querySelector('#time');
+            
+
+            localStorage.setItem('hora', hora.value);
+            localStorage.setItem('time', time.value);
+            ajuste.style = 'display: none;'
+        }
+    </script>
