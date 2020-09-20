@@ -1,21 +1,26 @@
 
 <body class="oscuro text-white" >
     <div class="container">
-        
-        <form action="/registro" method="POST">
-        <div class="form-group col-8 " style="padding-top: 20%; padding-left:30%;">
-            <h1 style="font-size: 5em;" class="text-center">DayLife</h1>
-            <label for="user">Login</label>
-            <input type="text" class="form-control mb-1" placeholder="user" name="User">
-            <input type="text" class="form-control mb-1" placeholder="password" name="Password">
-            <input type="submit" class="btn btn-success form-control" value="Log In">
+        <div class="wrapper">
+            <h1 class="text-center">DayLife</h1>
+            <form action="/registro" method="POST">
+            {{!-- <div class="form-group col-8 " style="padding-top: 20%; padding-left:30%;"> --}}
+                <label for="user">Login</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="user" name="User">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="password" name="Password">
+                </div>
+                <button type="submit" class="btn btn-success form-control">Log In</button>
 
-            <div class="text-center mt-3">
-                <a href="">No se mi contraseña?</a>
-                <br>
-                <a href="http://">Crear Cuenta</a>
+                <div class="text-center mt-3">
+                    <a href="">No se mi contraseña?</a>
+                    <br>
+                    <a href="http://">Crear Cuenta</a>
+                </div>
             </div>
-        </div>
+        {{!-- </div> --}}
         </form>
     </div>
 </body>

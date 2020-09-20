@@ -1,57 +1,101 @@
 /*afecta a todo*/
 
 * {
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    transition-duration: 340.ms;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  transition-duration: 340ms;
 }
-
 
 /*gradiante para el primae nav*/
 
 .bg-gradient {
-    background: rgba(13, 176, 165, 1);
-    background: -moz-linear-gradient(45deg, rgba(13, 176, 165, 1) 0%, rgba(249, 205, 44, 1) 100%);
-    background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(13, 176, 165, 1)), color-stop(100%, rgba(249, 205, 44, 1)));
-    background: -webkit-linear-gradient(45deg, rgba(13, 176, 165, 1) 0%, rgba(249, 205, 44, 1) 100%);
-    background: -o-linear-gradient(45deg, rgba(13, 176, 165, 1) 0%, rgba(249, 205, 44, 1) 100%);
-    background: -ms-linear-gradient(45deg, rgba(13, 176, 165, 1) 0%, rgba(249, 205, 44, 1) 100%);
-    background: linear-gradient(45deg, rgba(13, 176, 165, 1) 0%, rgba(249, 205, 44, 1) 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#0db0a5', endColorstr='#f9cd2c', GradientType=1);
+  background: rgba(13, 176, 165, 1);
+  background: -moz-linear-gradient(
+    45deg,
+    rgba(13, 176, 165, 1) 0%,
+    rgba(249, 205, 44, 1) 100%
+  );
+  background: -webkit-gradient(
+    left bottom,
+    right top,
+    color-stop(0%, rgba(13, 176, 165, 1)),
+    color-stop(100%, rgba(249, 205, 44, 1))
+  );
+  background: -webkit-linear-gradient(
+    45deg,
+    rgba(13, 176, 165, 1) 0%,
+    rgba(249, 205, 44, 1) 100%
+  );
+  background: -o-linear-gradient(
+    45deg,
+    rgba(13, 176, 165, 1) 0%,
+    rgba(249, 205, 44, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    45deg,
+    rgba(13, 176, 165, 1) 0%,
+    rgba(249, 205, 44, 1) 100%
+  );
+  background: linear-gradient(
+    45deg,
+    rgba(13, 176, 165, 1) 0%,
+    rgba(249, 205, 44, 1) 100%
+  );
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#0db0a5', endColorstr='#f9cd2c', GradientType=1);
 }
-
 
 /*class de background*/
 
 .oscuro {
-    background-color: #0C2229;
+  background-color: #0c2229;
 }
 
 .green {
-    background-color: #00D448;
+  background-color: #00d448;
 }
 
 .oscuro2 {
-    background-color: #143945;
+  background-color: #143945;
 }
-
 
 /*class de texto*/
 
 .toscuro {
-    color: #0C2229;
+  color: #0c2229;
 }
 
 .claro {
-    background-color: #2E6779;
+  background-color: #2e6779;
 }
-
 
 /*info perfil css*/
 
 .info-perfil {
-    position: absolute;
-    width: 309px;
-    height: 40px;
-    right: 1%;
-    top: 12%;
+  position: absolute;
+  width: 309px;
+  height: 40px;
+  right: 1%;
+  top: 12%;
+}
+
+/*-------- style form  login---------- */
+.wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.wrapper h1 {
+  font-family: "Arimo", sans-serif;
+  font-size: 8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.wrapper form {
+  display: block;
+  width: 70%;
 }
