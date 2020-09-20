@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const exhbs = require('express-handlebars')
-const route = require('../route/index.js');
+const route = require('../routes/index.js');
 
 const morgan = require('morgan');
 const multer = require('multer');
