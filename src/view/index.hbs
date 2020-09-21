@@ -44,20 +44,22 @@
     </nav>
 
     <!-- ajuste-->
-    <div class="oscuro text-white text-center" id="ajuste" style="height: 100vh;position: absolute; width: 100%;top: 0;padding-top: 12%;">
-        <form class="from" >
+    <div class="oscuro text-white text-center" id="ajuste"
+        style="height: 100vh;position: absolute; width: 100%;top: 0;padding-top: 12%;">
+        <form class="from">
             <h1 style="font-size: 5em; ">DayLife</h1>
-                <label for="despertar">Que hora te gustaria despertar?</label>  
+            <label for="despertar">Que hora te gustaria despertar?</label>
             <div class="form-group row mb-5" style="margin: 0; padding-left: 40%">
-                            
+
                 <input type="time" name="hora" id="hora" class="form-control col-3 mr-1">
-                <select name="time"  id="time" class="form-control col-1   ">
+                <select name="time" id="time" class="form-control col-1   ">
                     <option value="AM">AM</option>
                     <option value="PM">PM</option>
                 </select>
 
             </div>
-            <p>Si indicas tu hora de iniciar el dia <br> se generara un horario perfecto para la productividad de tu dia.</p>
+            <p>Si indicas tu hora de iniciar el dia <br> se generara un horario perfecto para la productividad de tu
+                dia.</p>
             <div class="from-group">
                 <input type="button" onclick="guardar()" class="btn btn-success col-2" value="Guardar">
             </div>
@@ -71,7 +73,7 @@
             var hora = localStorage.getItem('hora');
             var time = localStorage.getItem('time');
 
-            if(hora !== '' && time !== ''){
+            if (hora !== '' && time !== '') {
                 ajuste.style = 'display: none;'
             }
             //reloj
@@ -94,7 +96,10 @@
         }
         //detecta si es am o pm y hace que sea de reloj de 12 horas
         function pmoam(hr) {
-            var info = { 'hr': hr, 'pmoam': 'AM' };
+            var info = {
+                'hr': hr,
+                'pmoam': 'AM'
+            };
             if (hr < 12) {
                 info.hr = hr;
                 info.pmoam = 'AM';
@@ -105,10 +110,10 @@
             return info;
         }
         //guarda los dato en el navegador
-        function guardar(){
+        function guardar() {
             var hora = document.querySelector('#hora');
             var time = document.querySelector('#time');
-            
+
 
             localStorage.setItem('hora', hora.value);
             localStorage.setItem('time', time.value);
