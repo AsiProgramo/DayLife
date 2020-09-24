@@ -6,6 +6,7 @@ module.exports = app => {
 
     router.get('/', home.index);
     router.get('/login', home.login);
+    router.get('/crear', home.crear);
     router.get('/image/:id', control.index);
     router.post('/image', control.create);
     router.post('/registro', control.chatlive)

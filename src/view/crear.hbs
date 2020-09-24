@@ -3,23 +3,23 @@
         <div class="wrapper">
             <h1 class="text-center">DayLife</h1>
             <form action="/registro" method="POST">
-                {{!-- <div class="form-group col-8 " style="padding-top: 20%; padding-left:30%;"> --}}
-                <label for="user">Login</label>
+           
+                <label for="user">Crear cuenta</label>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="User" name="user">
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Password" name="password">
+                    <br>
+                     <input type="text" class="form-control" placeholder="Confirma Password" name="password">
                 </div>
-                <button type="submit" class="btn btn-success form-control">Log In</button>
+                <button type="submit" class="btn btn-success form-control">Crear</button>
 
                 <div class="text-center mt-3">
-                    <a href="">No se mi contraseña?</a>
-                    <br>
-                    <a href="/crear">Crear cuenta</a>
+                    <a href="/login">Sign In</a>    
                 </div>
         </div>
-        {{!-- </div> --}}
+     
         </form>
     </div>
 </body>

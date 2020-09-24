@@ -7,4 +7,9 @@ ctrl.login = (req, res) => {
     res.render('login');
 }
 
+ctrl.crear = (req, res) => {
+    res.render('crear');
+}
+
+
 module.exports = ctrl;
