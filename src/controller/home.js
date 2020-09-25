@@ -8,7 +8,7 @@ ctrl.login = (req, res) => {
 }
 
 ctrl.crear = (req, res) => {
-    res.render('crear');
+    res.render(req.file);
 }
 
 

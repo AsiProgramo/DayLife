@@ -6,8 +6,8 @@
                 class="toscuro">DayLife</b></a>
         <!--setting botones -->
         <form class="form-inline">
-            <img src="../../public/img/ADD.png" class="mr-sm-2" alt="img" width="50">
-            <img src="../../public/img/edit.png" class="mr-sm-0" alt="img" width="50">
+            <img src="../../public/img/ADD.png" id="add" class="mr-sm-2" alt="img" width="50">
+            <img src="../../public/img/edit.png" id="edit" class="mr-sm-0" alt="img" width="50">
         </form>
 
     </nav>
@@ -43,6 +43,31 @@
         </div>
     </nav>
 
+    <!--subir foto-->
+    <div class="oscuro text-white text-left col-5 p-2" id="subeimg">
+        <form action="/image" method="post" enctype="multipart/form-data">
+            <h2 class="text-center">Comparte una imagen</h2>
+            <div class="form-group col">
+                <label for="simg">Imagen</label>
+                <br>
+                
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="image" id="image"
+                        aria-describedby="selector de imagenes">
+                    <label class="custom-file-label" for="inputGroupFile01">Elige una imagen</label>
+                </div>
+            </div>
+            <div class="form-group col">
+                <label for="simg">Mensaje</label>
+                <br>
+                <textarea name="msj" id="" cols="104" rows="2" maxlength="100"></textarea>
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" class="btn btn-success form-control col-5" value="Compartir">
+            </div>
+
+        </form>
+    </div>
     <!-- ajuste-->
     <div class="oscuro text-white text-center" id="ajuste"
         style="height: 100vh;position: absolute; width: 100%;top: 0;padding-top: 12%;">
@@ -65,8 +90,8 @@
             </div>
         </form>
     </div>
-<script>
-    const ajuste = document.querySelector('#ajuste');
+    <script>
+        const ajuste = document.querySelector('#ajuste');
 
         function setup() {
             var hora = localStorage.getItem('hora');
@@ -118,4 +143,4 @@
             localStorage.setItem('time', time.value);
             ajuste.style = 'display: none;'
         }
-</script>
+    </script>
