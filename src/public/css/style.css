@@ -85,12 +85,12 @@
   justify-content: center;
   height: 100vh;
   margin: 0 auto;
-  width: 50%;
+  width: 100%;
 }
 
 .wrapper h1 {
   font-family: "Arimo", sans-serif;
-  font-size: 8rem;
+  font-size: 4rem;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -98,4 +98,19 @@
 .wrapper form {
   display: block;
   width: 70%;
+}
+
+/*-------- style form  login desktop---------- */
+@media only screen and (min-width: 765px) {
+  .wrapper {
+    width: 60%;
+  }
+
+  .wrapper h1 {
+    font-size: 8rem;
+  }
+
+  .wrapper form {
+    width: 60%;
+  }
 }
