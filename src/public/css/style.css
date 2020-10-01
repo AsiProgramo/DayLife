@@ -77,6 +77,24 @@
   top: 12%;
 }
 
+/* --------style form cargar imagen---- */
+.contain {
+  border-radius: 0.5rem;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.text-center {
+  font-family: "Arimo", sans-serif;
+  font-weight: 600;
+}
+
+@media only screen and (min-width: 765px) {
+  .contain {
+    width: 50%;
+  }
+}
+
 /*-------- style form  login---------- */
 .wrapper {
   align-items: center;
