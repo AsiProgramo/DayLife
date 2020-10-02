@@ -13,21 +13,39 @@ ctrl.login = (req, res) => {
 }
 
 ctrl.crear = async(req, res) => {
-    const imgpath = req.file.path;
+    //crea un nombre random
     const imgName = helpers.randomString();
-    const ext = path.extname(req.file.originalname).toLowerCase();
-    const targetpath = path.resolve(`src/public/upload/${imgName}${ext}`);
+    //mira tosdas las imagenes guardadas
+    const imagenes = await Image.find({ filename: imgName });
+    const saveImage = () => {
+        //comprueba si hay alguna con el mismi nombre
+        if (imagenes.length > 0) {
+            saveImage();
+        } else {
+            const imgpath = req.file.path;
 
-    if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
-        await fs.rename(imgpath, targetpath);
-        const newimg = new Image({
-            mensaje: req.body.mensaje,
-            filename: imgName + ext,
-        })
-        const imageSaved = await newimg.save();
+            const ext = path.extname(req.file.originalname).toLowerCase();
+            const targetpath = path.resolve(`src/public/upload/${imgName}${ext}`);
+
+            if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
+                await fs.rename(imgpath, targetpath);
+                const newimg = new Image({
+                    mensaje: req.body.mensaje,
+                    filename: imgName + ext,
+                })
+                const imageSaved = await newimg.save();
+            } else {
+                await fs.unlink(imgpath);
+                res.status(500).json({
+                    'error': 'Solo imagenes esta permitido.'
+                });
+            }
+
+            res.send('img subida');
+        }
     }
 
-    res.send('img subida');
+
 }
 
 
