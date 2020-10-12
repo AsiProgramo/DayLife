@@ -17,7 +17,7 @@ ctrl.crear = async(req, res) => {
     const imgName = helpers.randomString();
     //mira tosdas las imagenes guardadas
     const imagenes = await Image.find({ filename: imgName });
-    const saveImage = () => {
+    const saveImage = async () => {
         //comprueba si hay alguna con el mismi nombre
         if (imagenes.length > 0) {
             saveImage();
