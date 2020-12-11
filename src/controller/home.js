@@ -12,12 +12,13 @@ ctrl.login = (req, res) => {
     res.render('login');
 }
 
-ctrl.crear = async(req, res) => {
-    //crea un nombre random
-    const imgName = helpers.randomString();
-    //mira tosdas las imagenes guardadas
-    const imagenes = await Image.find({ filename: imgName });
-    const saveImage = () => {
+ctrl.crear = (req, res) => {
+
+    const saveImage = async() => {
+        //crea un nombre random
+        const imgName = helpers.randomString();
+        //mira tosdas las imagenes guardadas
+        const imagenes = await Image.find({ filename: imgName });
         //comprueba si hay alguna con el mismi nombre
         if (imagenes.length > 0) {
             saveImage();
@@ -34,19 +35,19 @@ ctrl.crear = async(req, res) => {
                     filename: imgName + ext,
                 })
                 const imageSaved = await newimg.save();
+                //res.redirect('/image');
+
             } else {
                 await fs.unlink(imgpath);
                 res.status(500).json({
                     'error': 'Solo imagenes esta permitido.'
                 });
             }
+            res.send('works');
 
-            res.send('img subida');
         }
     }
 
-
 }
-
 
 module.exports = ctrl;
