@@ -1,12 +1,12 @@
 const helpers = {};
 
-helpers.randomString = () => {
-    const opts = 'abcdefghijklmnopqrstvwxyz0123456789';
-    let randomname = '';
+helpers.randomNumber = () => {
+    const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let randomNumber = 0;
     for (let i = 0; i < 6; i++) {
-        randomname += opts.charAt(Math.floor(Math.random() * opts.length));
+        randomNumber += possible.charAt(Math.floor(Math.random() * possible.length));
     }
-    return randomname;
-}
+    return randomNumber;
+};
 
 module.exports = helpers;
