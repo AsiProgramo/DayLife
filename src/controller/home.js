@@ -12,13 +12,14 @@ ctrl.login = (req, res) => {
     res.render('login');
 }
 
-ctrl.crear = (req, res) => {
 
+ctrl.crear = async(req, res) => {
+    //crea un nombre random
+    const imgName = helpers.randomString();
+    //mira tosdas las imagenes guardadas
+    const imagenes = await Image.find({ filename: imgName });
     const saveImage = async() => {
-        //crea un nombre random
-        const imgName = helpers.randomString();
-        //mira tosdas las imagenes guardadas
-        const imagenes = await Image.find({ filename: imgName });
+
         //comprueba si hay alguna con el mismi nombre
         if (imagenes.length > 0) {
             saveImage();
