@@ -1,155 +1,74 @@
-<body class="oscuro" onload="setup()">
-    <!--nav principal -->
-    <nav class="navbar navbar-dark bg-gradient">
-        <!--icon y nombre -->
-        <a class="navbar-brand " href="/"><img src="../../public/img/icon0.png" alt="img" width="50"><b
-                class="toscuro">DayLife</b></a>
-        <!--setting botones -->
-        <form class="form-inline">
-            <img src="../../public/img/ADD.png" id="add" class="mr-sm-2" alt="img" width="50">
-            <img src="../../public/img/edit.png" id="edit" class="mr-sm-0" alt="img" width="50">
-        </form>
-
-    </nav>
-
-
-    <!--segundo nav-->
-    <nav class="nav oscuro2 pl-2 mt-1">
-        <!--primer columna info hora-->
-        <div class="col-1 row green">
-            <div class="m-2 toscuro">
-                <h5><b>HORA</b> </h5>
-                <h5>6:00AM</h5>
-            </div>
-
-        </div>
-        <!--Segunda columna info Aciones-->
-        <div class="col-2 row green" style="border-left: solid #0C2229  3px; border-right: solid #0C2229  3px;">
-
-            <div class="m-2">
-                <h5> <b>ACCION</b> </h5>
-                <h5>Despertar</h5>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- horario del día -->
+        <div class="col-lg-4 mb-4">
+            <div class="oscuro2 rounded p-3">
+                <h4 class="text-center">Tu horario de hoy</h4>
+                <ul class="list-unstyled mb-0" id="horario"></ul>
             </div>
         </div>
-        <!--tercer columna perfil y info hora real y user-->
-        <div class="col-3 oscuro form-inline info-perfil" style="border-radius: 28.5px; height: 57px;">
-            <div class="row  text-white">
-                <img src="../../public/img/norway-4970081_1920.jpg" alt="icon" width="50" height="50"
-                    style="border-radius: 28px;">
-                <h5 class="m-2 mt-3"><b>Maria</b></h5>
-                <h5 class="m-2 ml-5 mt-3" id="horaReal"></h5>
+
+        <!-- imágenes -->
+        <div class="col-lg-8">
+            <div class="row">
+                {{#each images}}
+                <div class="col-sm-6 col-md-4 mb-4">
+                    <a href="/images/{{uniqueId}}" class="text-white">
+                        <div class="card oscuro2 h-100">
+                            <img src="/public/upload/{{filename}}" class="card-img-top gallery-img" alt="{{title}}">
+                            <div class="card-body p-2">
+                                <h6 class="card-title mb-1">{{title}}</h6>
+                                <small><i class="fas fa-heart"></i> {{likes}} &nbsp; <i class="fas fa-eye"></i> {{views}}</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {{else}}
+                <div class="col-12 text-center p-5">
+                    <p>Todavía no hay imágenes. Usa el botón <b>+</b> para compartir la primera.</p>
+                </div>
+                {{/each}}
             </div>
-
         </div>
-    </nav>
+    </div>
+</div>
 
-    <!--subir foto-->
-    <div class="oscuro contain text-white text-left  p-2 mt-5" id="subeimg">
+<!--subir foto-->
+<div class="overlay" id="subeimg">
+    <div class="oscuro contain text-white p-3">
+        <div class="d-flex justify-content-between">
+            <h4>Subir imagen</h4>
+            <button type="button" class="close text-white" data-close="#subeimg">&times;</button>
+        </div>
         <form action="/images" method="POST" enctype="multipart/form-data">
-
-      <div class="form-group">
-        <div class="input-group">
-          <div class="custom-file">
-            <input type="file" name="image" class="custom-file-input" id="inputGroupFile"
-              aria-describedby="inputGroupFileAddon" required />
-            <label class="custom-file-label" for="inputGroupFile">Choose file</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <input type="text" name="title" class="form-control" placeholder="Title for the Image" required>
-      </div>
-
-      <div class="form-group">
-        <textarea name="description" rows="2" class="form-control" placeholder="Deescription for the Image"
-          required></textarea>
-      </div>
-
-      <div class="form-group">
-        <button class="btn btn-success">
-          <i class="fa fa-upload"></i> Upload Image
-        </button>
-      </div>
-
-    </form>
-    </div>
-
-    <!-- ajuste-->
-    <div class="oscuro text-white text-center" id="ajuste"
-        style="height: 100vh;position: absolute; width: 100%;top: 0;padding-top: 12%;">
-        <form class="from">
-            <h1 style="font-size: 5em; ">DayLife</h1>
-            <label for="despertar">Que hora te gustaria despertar?</label>
-            <div class="form-group row mb-5" style="margin: 0; padding-left: 40%">
-
-                <input type="time" name="hora" id="hora" class="form-control col-3 mr-1">
-                <select name="time" id="time" class="form-control col-1   ">
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                </select>
-
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" name="image" class="custom-file-input" id="inputGroupFile" accept="image/*" required />
+                    <label class="custom-file-label" for="inputGroupFile">Elige un archivo</label>
+                </div>
             </div>
-            <p>Si indicas tu hora de iniciar el dia <br> se generara un horario perfecto para la productividad de tu
-                dia.</p>
-            <div class="from-group">
-                <input type="button" onclick="guardar()" class="btn btn-success col-2" value="Guardar">
+            <div class="form-group">
+                <input type="text" name="title" class="form-control" placeholder="Título de la imagen" required>
             </div>
+            <div class="form-group">
+                <textarea name="description" rows="2" class="form-control" placeholder="Descripción de la imagen" required></textarea>
+            </div>
+            <button class="btn btn-success">
+                <i class="fa fa-upload"></i> Subir imagen
+            </button>
         </form>
     </div>
-    <script>
-        const ajuste = document.querySelector('#ajuste');
+</div>
 
-        function setup() {
-            var hora = localStorage.getItem('hora');
-            var time = localStorage.getItem('time');
-
-            if (hora !== '' && time !== '') {
-                ajuste.style = 'display: none;'
-            }
-            //reloj
-            setInterval(() => {
-                var horaReal = document.querySelector('#horaReal');
-                var day = new Date();
-                var hr = day.getHours();
-                var mn = day.getMinutes();
-
-                horaReal.innerHTML = pmoam(hr).hr + ':' + agrega0(mn) + pmoam(hr).pmoam;
-            }, 1000)
-        }
-        // agrega un 0 si el numero es menor a 10  (1:2PM)vs (1:02PM)
-        function agrega0(num) {
-            if (num < 10) {
-                num = '0' + num
-            }
-
-            return num;
-        }
-        //detecta si es am o pm y hace que sea de reloj de 12 horas
-        function pmoam(hr) {
-            var info = {
-                'hr': hr,
-                'pmoam': 'AM'
-            };
-            if (hr < 12) {
-                info.hr = hr;
-                info.pmoam = 'AM';
-            } else if (hr >= 12) {
-                info.hr = (hr - 12);
-                info.pmoam = 'PM'
-            }
-            return info;
-        }
-        //guarda los dato en el navegador
-        function guardar() {
-            var hora = document.querySelector('#hora');
-            var time = document.querySelector('#time');
-
-
-            localStorage.setItem('hora', hora.value);
-            localStorage.setItem('time', time.value);
-            ajuste.style = 'display: none;'
-        }
-
-  
-    </script>
+<!-- ajuste-->
+<div class="overlay oscuro text-white text-center" id="ajuste">
+    <form class="pt-5" id="ajusteForm">
+        <h1 style="font-size: 5em;">DayLife</h1>
+        <label for="hora">¿A qué hora te gustaría despertar?</label>
+        <div class="form-group d-flex justify-content-center mb-4">
+            <input type="time" name="hora" id="hora" class="form-control w-auto" required>
+        </div>
+        <p>Si indicas tu hora de iniciar el día <br> se generará un horario perfecto para la productividad de tu día.</p>
+        <button type="submit" class="btn btn-success col-6 col-md-2">Guardar</button>
+    </form>
+</div>

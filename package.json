@@ -1,33 +1,35 @@
 {
     "name": "daylife",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
+    "version": "1.1.0",
+    "description": "Web app para organizar tu día a partir de tu hora de despertar y compartir tu estilo de vida con imágenes.",
+    "main": "src/index.js",
     "scripts": {
+        "start": "node src/index.js",
         "dev": "nodemon src/index.js"
+    },
+    "engines": {
+        "node": ">=18"
     },
     "author": "IsaiasEspinal",
     "license": "ISC",
     "dependencies": {
-        "@handlebars/allow-prototype-access": "^1.0.3",
-        "bcrypt": "*",
+        "bcryptjs": "^3.0.3",
         "connect-flash": "^0.1.1",
-        "errorhandler": "^1.5.1",
-        "express": "^4.17.1",
-        "express-handlebars": "^5.1.0",
-        "express-session": "^1.17.1",
-        "extra": "^0.2.1",
-        "fs": "0.0.1-security",
-        "fs-extra": "^9.0.1",
+        "dotenv": "^18.0.5",
+        "errorhandler": "^1.5.2",
+        "express": "^4.22.3",
+        "express-handlebars": "^7.1.3",
+        "express-session": "^1.19.0",
+        "fs-extra": "^11.4.1",
         "md5": "^2.3.0",
-        "moment": "^2.29.1",
-        "mongoose": "^5.10.5",
-        "morgan": "^1.10.0",
-        "multer": "^1.4.2",
-        "passport": "^0.4.1",
+        "moment": "^2.31.0",
+        "mongoose": "^8.24.5",
+        "morgan": "^1.12.1",
+        "multer": "^2.4.0",
+        "passport": "^0.7.0",
         "passport-local": "^1.0.0"
     },
     "devDependencies": {
-        "nodemon": "^2.0.4"
+        "nodemon": "^3.1.14"
     }
 }

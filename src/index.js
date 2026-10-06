@@ -1,14 +1,20 @@
-const express = require('express');
-const config = require('./server/config');
+require("dotenv").config();
 
-// requiere la base de datos
-require('./datebase');
+const express = require("express");
+const config = require("./server/config");
+const { connect } = require("./config/mongoose");
 
-//ohs app extraido de express
+// app extraida de express ya configurada
 const app = config(express());
 
-
-// llama a el serve el un puerto
-app.listen(app.get('port'), () => {
-    console.log('server on port:http://localhost:' + app.get('port'));
-});
+// conecta a la base de datos y luego levanta el servidor
+connect()
+    .then(() => {
+        app.listen(app.get("port"), () => {
+            console.log("server on port: http://localhost:" + app.get("port"));
+        });
+    })
+    .catch((err) => {
+        console.error("No se pudo conectar a MongoDB:", err.message);
+        process.exit(1);
+    });

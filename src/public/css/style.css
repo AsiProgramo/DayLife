@@ -1,5 +1,10 @@
 /*afecta a todo*/
 
+html,
+body {
+  filter: none;
+}
+
 * {
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   transition-duration: 340ms;
@@ -131,4 +136,43 @@
   .wrapper form {
     width: 60%;
   }
+}
+
+/*-------- ventanas (subir imagen y ajuste) ---------- */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  padding-top: 8vh;
+  background-color: rgba(12, 34, 41, 0.92);
+}
+
+.overlay.visible {
+  display: block;
+}
+
+#ajuste {
+  background-color: #0c2229;
+}
+
+.nav-btn {
+  cursor: pointer;
+}
+
+.gallery-img {
+  height: 180px;
+  object-fit: cover;
+}
+
+.alert-flash {
+  max-width: 600px;
+}
+
+.info-perfil {
+  position: static;
+  width: auto;
+  height: auto;
+  border-radius: 28.5px;
 }

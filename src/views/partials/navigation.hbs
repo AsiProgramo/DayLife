@@ -1,0 +1,33 @@
+<!--nav principal -->
+<nav class="navbar navbar-dark bg-gradient">
+    <!--icon y nombre -->
+    <a class="navbar-brand" href="/"><img src="/public/img/icon0.png" alt="DayLife" width="50"><b
+            class="toscuro">DayLife</b></a>
+    <!--setting botones -->
+    <div class="form-inline">
+        <img src="/public/img/ADD.png" id="add" class="mr-sm-2 nav-btn" alt="Subir imagen" title="Subir imagen" width="50">
+        <img src="/public/img/edit.png" id="edit" class="mr-sm-2 nav-btn" alt="Cambiar hora" title="Cambiar hora de despertar" width="50">
+        <a href="/logout" class="btn btn-dark btn-sm">Salir</a>
+    </div>
+</nav>
+
+<!--segundo nav-->
+<nav class="nav oscuro2 px-2 mt-1 align-items-center flex-wrap">
+    <!--primer columna info hora-->
+    <div class="green toscuro px-3 py-2">
+        <h5 class="mb-0"><b>HORA</b></h5>
+        <h5 class="mb-0" id="accionHora">--:--</h5>
+    </div>
+    <!--Segunda columna info Aciones-->
+    <div class="green toscuro px-3 py-2" style="border-left: solid #0C2229 3px; border-right: solid #0C2229 3px;">
+        <h5 class="mb-0"><b>ACCION</b></h5>
+        <h5 class="mb-0" id="accionNombre">Configura tu hora</h5>
+    </div>
+    <!--tercer columna perfil y info hora real y user-->
+    <div class="oscuro info-perfil ml-auto my-2 px-3 d-flex align-items-center">
+        <img src="https://www.gravatar.com/avatar/{{gravatar user.email}}?d=identicon" alt="perfil" width="45" height="45"
+            class="rounded-circle">
+        <h5 class="m-2"><b>{{username user.email}}</b></h5>
+        <h5 class="m-2" id="horaReal"></h5>
+    </div>
+</nav>

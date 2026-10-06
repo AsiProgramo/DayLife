@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
-const { database } = require("../keys");
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/DayLife";
 
-mongoose
-    .connect(database.URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then((db) => console.log("db is connected"))
-    .catch((err) => console.log(err));
+// conecta a la base de datos
+async function connect() {
+    await mongoose.connect(MONGODB_URI);
+    console.log("db is connected");
+}
+
+module.exports = { connect };
