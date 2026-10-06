@@ -1,0 +1,47 @@
+# Dependencias (se reinstalan dentro de la imagen)
+node_modules
+.pnpm-store
+
+# Artefactos de build
+.next
+out
+dist
+build
+
+# Variables de entorno y secretos (NO incluir en la imagen)
+.env
+.env.*
+!.env.example
+
+# Git y metadatos
+.git
+.gitignore
+.gitattributes
+
+# Logs y cache
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.cache
+.turbo
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+*.swp
+
+# Docker y CI
+Dockerfile
+.dockerignore
+docker-compose*.yml
+.github
+
+# Tests y cobertura
+coverage
+.nyc_output
+
+# Documentacion (no necesaria en runtime)
+README.md
+*.md
+uploads

@@ -1,8 +1,0 @@
-#node
-node_modules
-
-#vscode
-.vscode
-
-#upload
-src/public/upload

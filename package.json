@@ -1,33 +1,50 @@
 {
-    "name": "daylife",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "dev": "nodemon src/index.js"
-    },
-    "author": "IsaiasEspinal",
-    "license": "ISC",
-    "dependencies": {
-        "@handlebars/allow-prototype-access": "^1.0.3",
-        "bcrypt": "*",
-        "connect-flash": "^0.1.1",
-        "errorhandler": "^1.5.1",
-        "express": "^4.17.1",
-        "express-handlebars": "^5.1.0",
-        "express-session": "^1.17.1",
-        "extra": "^0.2.1",
-        "fs": "0.0.1-security",
-        "fs-extra": "^9.0.1",
-        "md5": "^2.3.0",
-        "moment": "^2.29.1",
-        "mongoose": "^5.10.5",
-        "morgan": "^1.10.0",
-        "multer": "^1.4.2",
-        "passport": "^0.4.1",
-        "passport-local": "^1.0.0"
-    },
-    "devDependencies": {
-        "nodemon": "^2.0.4"
+  "name": "daylife",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Web app para organizar tu día a partir de tu hora de despertar y compartir tu estilo de vida con imágenes.",
+  "author": "IsaiasEspinal",
+  "license": "ISC",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.15.2",
+  "dependencies": {
+    "@tabler/icons-react": "^3.49.0",
+    "bcryptjs": "^3.0.3",
+    "clsx": "^2.1.1",
+    "mongoose": "^9.11.0",
+    "motion": "^14.0.0",
+    "next": "15",
+    "react": "19",
+    "react-dom": "19",
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.5",
+    "sileo": "^0.1.5",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
+    "@types/node": "20",
+    "@types/react": "19",
+    "@types/react-dom": "19",
+    "autoprefixer": "^10.6.1",
+    "eslint": "9",
+    "eslint-config-next": "15",
+    "postcss": "^8.5.29",
+    "tailwindcss": "3",
+    "typescript": "5"
+  },
+  "pnpm": {
+    "overrides": {
+      "next>postcss": "^8.5.29"
     }
+  }
 }
