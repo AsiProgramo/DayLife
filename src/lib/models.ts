@@ -9,6 +9,8 @@ const userSchema = new Schema(
     name: { type: String, trim: true, maxlength: 40 },
     // hora de despertar "HH:MM" (24 h)
     wakeTime: { type: String, match: /^([01]\d|2[0-3]):[0-5]\d$/ },
+    // hora de dormir "HH:MM"; vacia = 16 h despues de despertar
+    bedTime: { type: String, match: /^([01]\d|2[0-3]):[0-5]\d$/ },
     // rutina personalizada; vacia = plantilla por defecto
     routine: {
       type: [
@@ -18,6 +20,8 @@ const userSchema = new Schema(
           name: { type: String, required: true, trim: true, maxlength: 40 },
           icon: { type: String, required: true },
           duration: { type: Number, required: true, min: 5, max: 720 },
+          // hora fija "HH:MM"; sin ella la actividad es flexible
+          fixedAt: { type: String, match: /^([01]\d|2[0-3]):[0-5]\d$/ },
         },
       ],
       default: [],

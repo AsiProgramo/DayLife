@@ -26,6 +26,7 @@ export default async function HomePage({ searchParams }: Props) {
         <TodayPanel
           name={user.name}
           wakeTime={user.wakeTime}
+          bedTime={routine.bedTime}
           blocks={routine.blocks}
           dayLog={routine.dayLog}
         />

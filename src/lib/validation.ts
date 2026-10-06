@@ -37,9 +37,11 @@ export const commentSchema = z.object({
     .max(500, "Máximo 500 caracteres"),
 });
 
-export const wakeTimeSchema = z
+export const timeSchema = z
   .string()
   .regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Elige una hora válida");
+
+export const wakeTimeSchema = timeSchema;
 
 export const blockIdSchema = z.string().regex(/^[a-z0-9]{3,16}$/);
 
@@ -50,6 +52,7 @@ export const routineSchema = z
       name: z.string().trim().min(1, "Ponle un nombre").max(40, "Máximo 40 caracteres"),
       icon: z.enum(ICON_KEYS),
       duration: z.number().int().min(5).max(720).multipleOf(5),
+      fixedAt: timeSchema.optional(),
     }),
   )
   .min(1, "Añade al menos una actividad")

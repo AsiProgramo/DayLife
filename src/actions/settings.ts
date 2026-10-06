@@ -5,12 +5,13 @@ import { revalidatePath } from "next/cache";
 import { connectDb } from "@/lib/db";
 import { User } from "@/lib/models";
 import { rateLimit, waitMessage } from "@/lib/rate-limit";
-import type { Block } from "@/lib/schedule";
+import { parseTime, planDay, type Block } from "@/lib/schedule";
 import { requireUser } from "@/lib/session";
 import {
   blockIdSchema,
   dayKeySchema,
   routineSchema,
+  timeSchema,
   wakeTimeSchema,
   type FormState,
 } from "@/lib/validation";
@@ -30,19 +31,27 @@ export async function setWakeTime(_prev: FormState, formData: FormData): Promise
   return { ok: true, values: { wakeTime: parsed.data } };
 }
 
-export async function saveRoutine(blocks: Block[]): Promise<{ error?: string }> {
+export async function saveRoutine(blocks: Block[], bedTime: string): Promise<{ error?: string }> {
   const user = await requireUser();
 
   const parsed = routineSchema.safeParse(blocks);
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "Revisa la rutina" };
   }
+  const bed = timeSchema.safeParse(bedTime);
+  if (!bed.success) return { error: "Elige una hora de dormir válida" };
+
+  // las fijas no pueden chocar ni salirse del dia
+  if (user.wakeTime) {
+    const plan = planDay(parsed.data, parseTime(user.wakeTime), parseTime(bed.data));
+    if (plan.problems.length > 0) return { error: plan.problems[0] };
+  }
 
   const limit = await rateLimit("routine", user.id, 30, 10 * 60);
   if (!limit.ok) return { error: waitMessage(limit.retryAfterSeconds) };
 
   await connectDb();
-  await User.updateOne({ _id: user.id }, { $set: { routine: parsed.data } });
+  await User.updateOne({ _id: user.id }, { $set: { routine: parsed.data, bedTime: bed.data } });
 
   revalidatePath("/");
   return {};

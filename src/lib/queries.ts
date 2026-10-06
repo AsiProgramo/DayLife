@@ -9,11 +9,13 @@ import { DEFAULT_BLOCKS, ICON_KEYS, type ActivityIcon, type Block, type DayLog }
 const isIcon = (value: string): value is ActivityIcon =>
   (ICON_KEYS as readonly string[]).includes(value);
 
-/** Rutina del usuario (o la plantilla por defecto) y lo que ya marco como hecho. */
-export async function getRoutine(userId: string): Promise<{ blocks: Block[]; dayLog: DayLog }> {
+/** Rutina del usuario (o la plantilla por defecto), su hora de dormir y lo que ya marco como hecho. */
+export async function getRoutine(
+  userId: string,
+): Promise<{ blocks: Block[]; bedTime: string | null; dayLog: DayLog }> {
   await connectDb();
-  const user = await User.findById(userId).select("routine dayLog").lean();
-  const saved: { id: string; name: string; icon: string; duration: number }[] =
+  const user = await User.findById(userId).select("routine bedTime dayLog").lean();
+  const saved: { id: string; name: string; icon: string; duration: number; fixedAt?: string | null }[] =
     user?.routine ?? [];
   const blocks: Block[] =
     saved.length > 0
@@ -22,10 +24,12 @@ export async function getRoutine(userId: string): Promise<{ blocks: Block[]; day
           name: block.name,
           icon: isIcon(block.icon) ? block.icon : "focus",
           duration: block.duration,
+          ...(block.fixedAt ? { fixedAt: block.fixedAt } : {}),
         }))
       : DEFAULT_BLOCKS;
   return {
     blocks,
+    bedTime: user?.bedTime ?? null,
     dayLog: { date: user?.dayLog?.date ?? "", done: user?.dayLog?.done ?? [] },
   };
 }

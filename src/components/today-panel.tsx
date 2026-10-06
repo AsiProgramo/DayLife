@@ -5,6 +5,7 @@ import {
   IconCheck,
   IconChevronDown,
   IconPencil,
+  IconPinFilled,
   IconSunrise,
 } from "@tabler/icons-react";
 import { useEffect, useState, useTransition } from "react";
@@ -13,11 +14,12 @@ import { sileo } from "sileo";
 import { setActivityDone } from "@/actions/settings";
 import { cn } from "@/lib/cn";
 import {
-  buildSchedule,
+  defaultBedTime,
   formatDuration,
   formatTime,
   getScheduleState,
   parseTime,
+  planDay,
   type Block,
   type DayLog,
 } from "@/lib/schedule";
@@ -62,9 +64,15 @@ function dayKey(clock: Clock, wakeMinutes: number): string {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
-type Props = { name: string; wakeTime: string | null; blocks: Block[]; dayLog: DayLog };
+type Props = {
+  name: string;
+  wakeTime: string | null;
+  bedTime: string | null;
+  blocks: Block[];
+  dayLog: DayLog;
+};
 
-export function TodayPanel({ name, wakeTime, blocks, dayLog }: Props) {
+export function TodayPanel({ name, wakeTime, bedTime, blocks, dayLog }: Props) {
   const clock = useClock();
   const [dialog, setDialog] = useState<"wake" | "routine" | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -96,7 +104,9 @@ export function TodayPanel({ name, wakeTime, blocks, dayLog }: Props) {
   }
 
   const wake = parseTime(wakeTime);
-  const items = buildSchedule(blocks);
+  const bed = bedTime ? parseTime(bedTime) : defaultBedTime(blocks, wake);
+  const plan = planDay(blocks, wake, bed);
+  const items = plan.items;
   const state = clock ? getScheduleState(items, wake, clock.minutes) : null;
   const today = clock ? dayKey(clock, wake) : null;
   const current = state ? items[state.currentIndex] : null;
@@ -107,7 +117,7 @@ export function TodayPanel({ name, wakeTime, blocks, dayLog }: Props) {
 
   const saved = today && dayLog.date === today ? dayLog.done : [];
   const done = new Set(today && local?.date === today ? local.done : saved);
-  const tasks = items.filter((item) => !item.isSleep);
+  const tasks = items.filter((item) => item.kind === "task");
   const doneCount = tasks.filter((item) => done.has(item.id)).length;
   const allDone = tasks.length > 0 && doneCount === tasks.length;
 
@@ -200,7 +210,7 @@ export function TodayPanel({ name, wakeTime, blocks, dayLog }: Props) {
                 </>
               )}
             </p>
-            {!current.isSleep ? (
+            {current.kind === "task" ? (
               <Button
                 variant={done.has(current.id) ? "secondary" : "primary"}
                 className="mt-4 w-full"
@@ -289,7 +299,7 @@ export function TodayPanel({ name, wakeTime, blocks, dayLog }: Props) {
                   isCurrent && "bg-primary/10",
                 )}
               >
-                {item.isSleep ? (
+                {item.kind !== "task" ? (
                   <span className="grid size-11 shrink-0 place-items-center text-muted-foreground">
                     <ItemIcon size={18} aria-hidden />
                   </span>
@@ -318,7 +328,7 @@ export function TodayPanel({ name, wakeTime, blocks, dayLog }: Props) {
                 <span className="w-[4.5rem] shrink-0 text-sm tabular-nums text-muted-foreground">
                   {formatTime(wake + item.start)}
                 </span>
-                {!item.isSleep ? (
+                {item.kind === "task" ? (
                   <ItemIcon
                     size={18}
                     aria-hidden
@@ -329,10 +339,18 @@ export function TodayPanel({ name, wakeTime, blocks, dayLog }: Props) {
                   className={cn(
                     "min-w-0 flex-1 truncate py-2.5",
                     isCurrent && "font-medium",
+                    item.kind === "free" && "italic text-muted-foreground",
                     isDone && "text-muted-foreground line-through decoration-muted-foreground/50",
                   )}
                 >
                   {item.name}
+                  {item.fixedAt ? (
+                    <IconPinFilled
+                      size={12}
+                      aria-label="Hora fija"
+                      className="ml-1.5 inline-block align-baseline text-muted-foreground"
+                    />
+                  ) : null}
                 </span>
                 {isCurrent ? (
                   <span className="shrink-0 rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
@@ -362,10 +380,15 @@ export function TodayPanel({ name, wakeTime, blocks, dayLog }: Props) {
         open={dialog === "routine"}
         onClose={() => setDialog(null)}
         title="Personaliza tu día"
-        description="Cambia nombres, duraciones y el orden. Las horas se recalculan solas."
+        description="Pon tus cosas fijas con su hora y reparte el tiempo libre que queda."
         className="max-w-xl"
       >
-        <RoutineEditor blocks={blocks} wakeMinutes={wake} onSaved={() => setDialog(null)} />
+        <RoutineEditor
+          blocks={blocks}
+          wakeMinutes={wake}
+          bedMinutes={bed}
+          onSaved={() => setDialog(null)}
+        />
       </Dialog>
     </section>
   );

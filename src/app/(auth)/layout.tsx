@@ -2,10 +2,10 @@ import { IconCheck } from "@tabler/icons-react";
 import type { ReactNode } from "react";
 
 import { Logo } from "@/components/logo";
-import { buildSchedule, DEFAULT_BLOCKS, formatTime, parseTime } from "@/lib/schedule";
+import { defaultBedTime, DEFAULT_BLOCKS, formatTime, parseTime, planDay } from "@/lib/schedule";
 
 const SAMPLE_WAKE = parseTime("06:30");
-const SCHEDULE = buildSchedule(DEFAULT_BLOCKS);
+const SCHEDULE = planDay(DEFAULT_BLOCKS, SAMPLE_WAKE, defaultBedTime(DEFAULT_BLOCKS, SAMPLE_WAKE)).items;
 const SAMPLE = [0, 2, 4, 5].map((index) => SCHEDULE[index]);
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
