@@ -1,11 +1,21 @@
-# node
+# dependencias
 node_modules
+.pnpm-store
+
+# next
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
 
 # entorno
 .env
-
-# vscode
-.vscode
+.env.*
+!.env.example
 
 # imágenes subidas por los usuarios
-src/public/upload
+/uploads
+
+# editor / OS
+.vscode
+.DS_Store
