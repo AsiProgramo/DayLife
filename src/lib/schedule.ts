@@ -1,42 +1,146 @@
-// Horario del dia generado a partir de la hora de despertar.
+// Rutina del dia: bloques con duracion que se encadenan desde la hora de despertar.
+// El sueno no es un bloque editable: ocupa lo que queda hasta la siguiente
+// hora de despertar.
 
-export type ActivityIcon =
-  | "wake"
-  | "water"
-  | "exercise"
-  | "shower"
-  | "breakfast"
-  | "focus"
-  | "break"
-  | "tasks"
-  | "lunch"
-  | "work"
-  | "free"
-  | "dinner"
-  | "read"
-  | "sleep";
+export const ICON_KEYS = [
+  "wake",
+  "water",
+  "exercise",
+  "shower",
+  "breakfast",
+  "focus",
+  "break",
+  "tasks",
+  "lunch",
+  "work",
+  "free",
+  "dinner",
+  "read",
+  "sleep",
+  "study",
+  "walk",
+  "meditate",
+  "music",
+  "people",
+  "commute",
+  "home",
+  "code",
+] as const;
 
-export type Activity = { min: number; name: string; icon: ActivityIcon };
+export type ActivityIcon = (typeof ICON_KEYS)[number];
 
-// minutos desde la hora de despertar
-export const ACTIVITIES: readonly Activity[] = [
-  { min: 0, name: "Despertar", icon: "wake" },
-  { min: 10, name: "Tomar agua y estirarse", icon: "water" },
-  { min: 30, name: "Ejercicio", icon: "exercise" },
-  { min: 75, name: "Ducha", icon: "shower" },
-  { min: 90, name: "Desayuno", icon: "breakfast" },
-  { min: 120, name: "Trabajo profundo", icon: "focus" },
-  { min: 270, name: "Descanso", icon: "break" },
-  { min: 285, name: "Tareas y correos", icon: "tasks" },
-  { min: 360, name: "Almuerzo", icon: "lunch" },
-  { min: 420, name: "Trabajo", icon: "work" },
-  { min: 600, name: "Tiempo libre", icon: "free" },
-  { min: 690, name: "Cena", icon: "dinner" },
-  { min: 780, name: "Leer y desconectarse", icon: "read" },
-  { min: 960, name: "Dormir", icon: "sleep" },
-];
+export type Block = { id: string; name: string; icon: ActivityIcon; duration: number };
+
+export type ScheduleItem = Block & {
+  /** minutos desde la hora de despertar */
+  start: number;
+  isSleep: boolean;
+};
+
+export type DayLog = { date: string; done: string[] };
 
 const DAY = 1440;
+export const SLEEP_ID = "sleep";
+export const MAX_BLOCKS = 30;
+/** La rutina deja al menos 2 h libres para dormir. */
+export const MAX_ROUTINE_MINUTES = DAY - 120;
+export const RECOMMENDED_SLEEP_MINUTES = 7 * 60;
+
+export const DURATION_OPTIONS = [5, 10, 15, 20, 30, 45, 60, 75, 90, 120, 150, 180, 240, 300];
+
+type TemplateBlock = [name: string, icon: ActivityIcon, duration: number];
+
+const template = (prefix: string, blocks: TemplateBlock[]): Block[] =>
+  blocks.map(([name, icon, duration], index) => ({
+    id: `${prefix}${String(index).padStart(2, "0")}`,
+    name,
+    icon,
+    duration,
+  }));
+
+export const TEMPLATES: { id: string; name: string; description: string; blocks: Block[] }[] = [
+  {
+    id: "equilibrada",
+    name: "Equilibrada",
+    description: "Ejercicio temprano y dos bloques de trabajo",
+    blocks: template("eq", [
+      ["Despertar", "wake", 10],
+      ["Tomar agua y estirarse", "water", 20],
+      ["Ejercicio", "exercise", 45],
+      ["Ducha", "shower", 15],
+      ["Desayuno", "breakfast", 30],
+      ["Trabajo profundo", "focus", 150],
+      ["Descanso", "break", 15],
+      ["Tareas y correos", "tasks", 75],
+      ["Almuerzo", "lunch", 60],
+      ["Trabajo", "work", 180],
+      ["Tiempo libre", "free", 90],
+      ["Cena", "dinner", 90],
+      ["Leer y desconectarse", "read", 180],
+    ]),
+  },
+  {
+    id: "enfoque",
+    name: "Enfoque temprano",
+    description: "Lo más difícil primero, antes del desayuno",
+    blocks: template("en", [
+      ["Despertar", "wake", 10],
+      ["Tomar agua", "water", 10],
+      ["Meditar", "meditate", 15],
+      ["Trabajo profundo", "focus", 180],
+      ["Desayuno", "breakfast", 30],
+      ["Ejercicio", "exercise", 60],
+      ["Ducha", "shower", 15],
+      ["Trabajo", "work", 180],
+      ["Almuerzo", "lunch", 60],
+      ["Tareas y correos", "tasks", 90],
+      ["Caminar", "walk", 30],
+      ["Tiempo libre", "free", 120],
+      ["Cena", "dinner", 60],
+      ["Leer y desconectarse", "read", 120],
+    ]),
+  },
+  {
+    id: "estudio",
+    name: "Estudio",
+    description: "Sesiones de estudio con pausas y clases por la tarde",
+    blocks: template("es", [
+      ["Despertar", "wake", 10],
+      ["Desayuno", "breakfast", 30],
+      ["Estudio", "study", 120],
+      ["Descanso", "break", 15],
+      ["Estudio", "study", 120],
+      ["Almuerzo", "lunch", 60],
+      ["Clases", "people", 180],
+      ["Ejercicio", "exercise", 60],
+      ["Ducha", "shower", 15],
+      ["Repaso", "read", 90],
+      ["Cena", "dinner", 60],
+      ["Tiempo libre", "free", 120],
+    ]),
+  },
+];
+
+export const DEFAULT_BLOCKS: Block[] = TEMPLATES[0].blocks;
+
+export function totalMinutes(blocks: readonly Block[]): number {
+  return blocks.reduce((sum, block) => sum + block.duration, 0);
+}
+
+/** Encadena los bloques desde el minuto 0 y agrega el sueno con lo que sobra del dia. */
+export function buildSchedule(blocks: readonly Block[]): ScheduleItem[] {
+  let start = 0;
+  const items: ScheduleItem[] = blocks.map((block) => {
+    const item = { ...block, start, isSleep: false };
+    start += block.duration;
+    return item;
+  });
+  const sleep = DAY - start;
+  if (sleep > 0) {
+    items.push({ id: SLEEP_ID, name: "Dormir", icon: "sleep", duration: sleep, start, isSleep: true });
+  }
+  return items;
+}
 
 /** "06:30" -> 390 */
 export function parseTime(value: string): number {
@@ -63,19 +167,19 @@ export function formatDuration(minutes: number): string {
 
 export type ScheduleState = {
   currentIndex: number;
-  /** minutos transcurridos de la actividad actual */
+  /** minutos transcurridos del bloque actual */
   elapsed: number;
-  /** duracion total de la actividad actual */
-  duration: number;
 };
 
-export function getScheduleState(wakeMinutes: number, nowMinutes: number): ScheduleState {
+export function getScheduleState(
+  items: readonly ScheduleItem[],
+  wakeMinutes: number,
+  nowMinutes: number,
+): ScheduleState {
   const sinceWake = (((nowMinutes - wakeMinutes) % DAY) + DAY) % DAY;
   let currentIndex = 0;
-  ACTIVITIES.forEach((activity, index) => {
-    if (activity.min <= sinceWake) currentIndex = index;
+  items.forEach((item, index) => {
+    if (item.start <= sinceWake) currentIndex = index;
   });
-  const start = ACTIVITIES[currentIndex].min;
-  const end = ACTIVITIES[currentIndex + 1]?.min ?? DAY;
-  return { currentIndex, elapsed: sinceWake - start, duration: end - start };
+  return { currentIndex, elapsed: sinceWake - items[currentIndex].start };
 }

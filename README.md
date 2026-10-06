@@ -5,7 +5,9 @@ DayLife genera tu horario del día a partir de tu hora de despertar y te deja co
 ## Funciones
 
 - Registro e inicio de sesión con email y contraseña.
-- Horario del día calculado desde tu hora de despertar, con la actividad actual, su progreso y lo que sigue. La hora se guarda en tu cuenta.
+- Horario del día calculado desde tu hora de despertar, con la actividad actual, su progreso y lo que sigue.
+- Rutina personalizable: añade, quita, renombra y reordena actividades, cambia su duración e icono, o parte de una plantilla. Las horas y el tiempo de sueño se recalculan solos.
+- Marca cada actividad como hecha y sigue el avance del día. El día empieza al despertar, no a medianoche.
 - Galería de la comunidad: subir, ver, me gusta (uno por persona), comentarios y borrado (solo el autor).
 - Tema claro y oscuro según la preferencia del sistema.
 

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { ICON_KEYS, MAX_BLOCKS, MAX_ROUTINE_MINUTES } from "./schedule";
+
 export const emailSchema = z
   .string()
   .trim()
@@ -38,6 +40,27 @@ export const commentSchema = z.object({
 export const wakeTimeSchema = z
   .string()
   .regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Elige una hora válida");
+
+export const blockIdSchema = z.string().regex(/^[a-z0-9]{3,16}$/);
+
+export const routineSchema = z
+  .array(
+    z.object({
+      id: blockIdSchema,
+      name: z.string().trim().min(1, "Ponle un nombre").max(40, "Máximo 40 caracteres"),
+      icon: z.enum(ICON_KEYS),
+      duration: z.number().int().min(5).max(720).multipleOf(5),
+    }),
+  )
+  .min(1, "Añade al menos una actividad")
+  .max(MAX_BLOCKS, `Máximo ${MAX_BLOCKS} actividades`)
+  .refine((blocks) => new Set(blocks.map((b) => b.id)).size === blocks.length, "Actividades duplicadas")
+  .refine(
+    (blocks) => blocks.reduce((sum, b) => sum + b.duration, 0) <= MAX_ROUTINE_MINUTES,
+    "La rutina no deja tiempo para dormir. Acorta alguna actividad.",
+  );
+
+export const dayKeySchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
 export const objectIdSchema = z.string().regex(/^[a-f0-9]{24}$/);
 

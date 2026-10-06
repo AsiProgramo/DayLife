@@ -4,7 +4,7 @@ import type { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "rea
 import { cn } from "@/lib/cn";
 
 export const controlClass = cn(
-  "w-full rounded-md border border-input bg-card px-3.5 text-base text-foreground",
+  "rounded-md border border-input bg-card px-3.5 text-base text-foreground",
   "placeholder:text-muted-foreground/70 transition-colors duration-200",
   "hover:border-ring/60 aria-[invalid=true]:border-destructive",
 );
@@ -44,7 +44,7 @@ export function Field({
           name={name}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
-          className={cn(controlClass, "h-12", trailing ? "pr-12" : null, className)}
+          className={cn(controlClass, "h-12 w-full", trailing ? "pr-12" : null, className)}
           {...props}
         />
         {trailing ? <div className="absolute inset-y-0 right-0.5 flex items-center">{trailing}</div> : null}
@@ -80,7 +80,7 @@ export function TextareaField({
         name={name}
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy}
-        className={cn(controlClass, "min-h-24 resize-y py-3 leading-relaxed", className)}
+        className={cn(controlClass, "min-h-24 w-full resize-y py-3 leading-relaxed", className)}
         {...props}
       />
       {hint && !error ? (

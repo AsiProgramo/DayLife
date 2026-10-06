@@ -4,6 +4,31 @@ import mongoose from "mongoose";
 import { GALLERY_PAGE_SIZE } from "./constants";
 import { connectDb } from "./db";
 import { Comment, Image, User } from "./models";
+import { DEFAULT_BLOCKS, ICON_KEYS, type ActivityIcon, type Block, type DayLog } from "./schedule";
+
+const isIcon = (value: string): value is ActivityIcon =>
+  (ICON_KEYS as readonly string[]).includes(value);
+
+/** Rutina del usuario (o la plantilla por defecto) y lo que ya marco como hecho. */
+export async function getRoutine(userId: string): Promise<{ blocks: Block[]; dayLog: DayLog }> {
+  await connectDb();
+  const user = await User.findById(userId).select("routine dayLog").lean();
+  const saved: { id: string; name: string; icon: string; duration: number }[] =
+    user?.routine ?? [];
+  const blocks: Block[] =
+    saved.length > 0
+      ? saved.map((block) => ({
+          id: block.id,
+          name: block.name,
+          icon: isIcon(block.icon) ? block.icon : "focus",
+          duration: block.duration,
+        }))
+      : DEFAULT_BLOCKS;
+  return {
+    blocks,
+    dayLog: { date: user?.dayLog?.date ?? "", done: user?.dayLog?.done ?? [] },
+  };
+}
 
 export type GalleryItem = {
   id: string;

@@ -9,6 +9,24 @@ const userSchema = new Schema(
     name: { type: String, trim: true, maxlength: 40 },
     // hora de despertar "HH:MM" (24 h)
     wakeTime: { type: String, match: /^([01]\d|2[0-3]):[0-5]\d$/ },
+    // rutina personalizada; vacia = plantilla por defecto
+    routine: {
+      type: [
+        {
+          _id: false,
+          id: { type: String, required: true },
+          name: { type: String, required: true, trim: true, maxlength: 40 },
+          icon: { type: String, required: true },
+          duration: { type: Number, required: true, min: 5, max: 720 },
+        },
+      ],
+      default: [],
+    },
+    // actividades marcadas como hechas en el dia en curso
+    dayLog: {
+      date: { type: String },
+      done: { type: [String], default: [] },
+    },
   },
   { timestamps: true },
 );

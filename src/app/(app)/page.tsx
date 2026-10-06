@@ -6,7 +6,7 @@ import { ImageCard } from "@/components/image-card";
 import { Reveal } from "@/components/reveal";
 import { TodayPanel } from "@/components/today-panel";
 import { buttonClass } from "@/components/ui/button";
-import { getGalleryPage } from "@/lib/queries";
+import { getGalleryPage, getRoutine } from "@/lib/queries";
 import { requireUser } from "@/lib/session";
 
 type Props = { searchParams: Promise<{ pagina?: string }> };
@@ -15,12 +15,20 @@ export default async function HomePage({ searchParams }: Props) {
   const user = await requireUser();
   const { pagina } = await searchParams;
   const page = Math.min(Math.max(Number.parseInt(pagina ?? "1", 10) || 1, 1), 500);
-  const { images, hasMore } = await getGalleryPage(page);
+  const [{ images, hasMore }, routine] = await Promise.all([
+    getGalleryPage(page),
+    getRoutine(user.id),
+  ]);
 
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:gap-12">
       <div className="lg:sticky lg:top-24 lg:self-start">
-        <TodayPanel name={user.name} wakeTime={user.wakeTime} />
+        <TodayPanel
+          name={user.name}
+          wakeTime={user.wakeTime}
+          blocks={routine.blocks}
+          dayLog={routine.dayLog}
+        />
       </div>
 
       <section aria-labelledby="community-title" className="space-y-5">

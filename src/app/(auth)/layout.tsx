@@ -2,10 +2,11 @@ import { IconCheck } from "@tabler/icons-react";
 import type { ReactNode } from "react";
 
 import { Logo } from "@/components/logo";
-import { ACTIVITIES, formatTime, parseTime } from "@/lib/schedule";
+import { buildSchedule, DEFAULT_BLOCKS, formatTime, parseTime } from "@/lib/schedule";
 
 const SAMPLE_WAKE = parseTime("06:30");
-const SAMPLE = [0, 2, 4, 5].map((index) => ACTIVITIES[index]);
+const SCHEDULE = buildSchedule(DEFAULT_BLOCKS);
+const SAMPLE = [0, 2, 4, 5].map((index) => SCHEDULE[index]);
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
@@ -26,7 +27,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           <ol className="space-y-2 rounded-lg border border-border bg-background/70 p-3 shadow-soft backdrop-blur">
             {SAMPLE.map((activity, index) => (
               <li
-                key={activity.name}
+                key={activity.id}
                 className={
                   index === 1
                     ? "flex items-center gap-3 rounded-md bg-primary/10 px-3 py-2.5 font-medium"
@@ -34,7 +35,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                 }
               >
                 <span className="w-20 shrink-0 text-sm tabular-nums">
-                  {formatTime(SAMPLE_WAKE + activity.min)}
+                  {formatTime(SAMPLE_WAKE + activity.start)}
                 </span>
                 <span className="flex-1">{activity.name}</span>
                 {index === 0 ? <IconCheck size={18} aria-hidden /> : null}
